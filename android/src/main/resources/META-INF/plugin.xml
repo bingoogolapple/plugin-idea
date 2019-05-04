@@ -1,0 +1,66 @@
+<idea-plugin>
+    <!-- 插件名称，别人在官方插件库搜索你的插件时使用的名称 -->
+    <name>BGAAndroid</name>
+    <!--
+    插件唯一id，不能和其他插件项目重复，所以推荐使用com.xxx.xxx的格式
+    插件不同版本之间不能更改，若没有指定，则与插件名称相同
+    -->
+    <id>cn.bingoogolapple.idea.android</id>
+    <!-- 作者邮件和主页 -->
+    <vendor email="bingoogolapple@gmail.com" url="http://www.bingoogolapple.cn">bingoogolapple</vendor>
+
+    <!-- 插件的描述，支持 HTML 标签 -->
+    <description><![CDATA[
+        description
+        description
+        description
+        description]]></description>
+
+    <!-- 插件版本变更信息，支持 HTML 标签；将展示在 settings | Plugins 对话框和插件仓库的 Web 页面 -->
+    <change-notes><![CDATA[
+        description
+        description
+        description
+        description]]></change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- 插件所依赖的其他插件的 id http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
+    <depends>org.jetbrains.android</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+    </extensions>
+
+    <actions>
+        <group id="cn.bingoogolapple.idea.android" text="BGAAndroid">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+        </group>
+
+        <group id="cn.bingoogolapple.idea.android.settings" text="Settings" popup="true">
+            <add-to-group group-id="cn.bingoogolapple.idea.android" anchor="first"/>
+
+            <action id="cn.bingoogolapple.idea.android.action.common.ConnectYeShen"
+                    class="cn.bingoogolapple.idea.android.action.common.ConnectYeShen"/>
+            <separator/>
+            <action id="cn.bingoogolapple.idea.android.action.common.SettingsHome"
+                    class="cn.bingoogolapple.idea.android.action.common.SettingsHome"/>
+            <action id="cn.bingoogolapple.idea.android.action.common.SettingsWiFi"
+                    class="cn.bingoogolapple.idea.android.action.common.SettingsWiFi"/>
+            <action id="cn.bingoogolapple.idea.android.action.common.SettingsApp"
+                    class="cn.bingoogolapple.idea.android.action.common.SettingsApp"/>
+            <action id="cn.bingoogolapple.idea.android.action.common.SettingsDeveloper"
+                    class="cn.bingoogolapple.idea.android.action.common.SettingsDeveloper"/>
+        </group>
+
+        <action id="cn.bingoogolapple.idea.android.BGAAndroidAction"
+                class="cn.bingoogolapple.idea.android.BGAAndroidAction"
+                icon="/icons/BGA.png"
+                project-type="Android"
+                text="BGAAndroid">
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+            <add-to-group group-id="NavBarToolBar" anchor="first"/>
+        </action>
+
+    </actions>
+</idea-plugin>

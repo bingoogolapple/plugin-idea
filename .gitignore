@@ -1,0 +1,13 @@
+### IntelliJ IDEA ###
+.gradle/
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Mac system files
+.DS_Store
+
+build/
+/*/build/
+/*/out/

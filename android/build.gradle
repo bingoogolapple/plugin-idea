@@ -1,0 +1,38 @@
+apply plugin: 'idea'
+apply plugin: "org.jetbrains.intellij"
+apply plugin: "java"
+apply plugin: 'kotlin'
+
+group 'cn.bingoogolapple'
+version '1.0.0'
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+
+// https://github.com/JetBrains/gradle-intellij-plugin
+intellij {
+    version '2019.1.1'
+    pluginName 'BGA-IDEA'
+    plugins 'android'
+    updateSinceUntilBuild false
+    sandboxDirectory = "$project.buildDir/sandbox"
+}
+patchPluginXml {
+    changeNotes """
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>"""
+}
