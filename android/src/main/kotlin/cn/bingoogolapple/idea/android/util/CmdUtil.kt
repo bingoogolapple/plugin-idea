@@ -17,11 +17,13 @@ class CmdResult {
         this.errorMsg = errorMsg
 
         println("$result | $successMsg | $errorMsg")
+        Logger.info("$result | $successMsg | $errorMsg")
     }
 }
 
 fun String.runCmd(): CmdResult {
     println("执行命令：$this")
+    Logger.info("\n执行命令：$this")
 
     if (this.isEmpty()) {
         return CmdResult(-1)

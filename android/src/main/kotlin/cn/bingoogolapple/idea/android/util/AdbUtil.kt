@@ -1,6 +1,30 @@
 package cn.bingoogolapple.idea.android.util
 
+import com.intellij.openapi.project.Project
+import org.jetbrains.android.sdk.AndroidSdkUtils
+
 object AdbUtil {
+    private var adbPath: String? = null
+
+    fun updateAdbPath(project: Project) {
+        if (adbPath != null) {
+            return
+        }
+
+        val adbFile = AndroidSdkUtils.getAdb(project)
+        if (adbFile != null) {
+            adbPath = adbFile.absolutePath
+        }
+    }
+
+    private fun getAdb(): String {
+        return if (adbPath.isNullOrBlank()) {
+            "adb"
+        } else {
+            adbPath!!
+        }
+    }
+
     fun sleep(time: Int) {
         "sleep $time".runCmd()
     }
@@ -9,14 +33,14 @@ object AdbUtil {
      * 以 action 方式打开 Activity
      */
     fun startActivityWithAction(action: String) {
-        "adb shell am start --activity-clear-top -a $action".runCmd()
+        "${getAdb()} shell am start --activity-clear-top -a $action".runCmd()
     }
 
     /**
      * 以 component 方式打开 Activity
      */
     fun startActivityWithComponent(component: String) {
-        "adb shell am start --activity-clear-top -n $component".runCmd()
+        "${getAdb()} shell am start --activity-clear-top -n $component".runCmd()
     }
 
     /**
@@ -24,14 +48,14 @@ object AdbUtil {
      */
     fun inputTap(param: String) {
         sleep(1)
-        "adb shell input tap $param".runCmd()
+        "${getAdb()} shell input tap $param".runCmd()
     }
 
     /**
      * 按键输入
      */
     fun inputKeyEvent(param: String) {
-        "adb shell input keyevent $param".runCmd()
+        "${getAdb()} shell input keyevent $param".runCmd()
     }
 
     /**
@@ -39,7 +63,7 @@ object AdbUtil {
      */
     fun inputSwipe(param: String) {
         sleep(1)
-        "adb shell input swipe $param".runCmd()
+        "${getAdb()} shell input swipe $param".runCmd()
     }
 
     /**
@@ -90,7 +114,7 @@ object AdbUtil {
      */
     fun inputText(param: String) {
         clearEt()
-        "adb shell input text $param".runCmd()
+        "${getAdb()} shell input text $param".runCmd()
     }
 
     /**
