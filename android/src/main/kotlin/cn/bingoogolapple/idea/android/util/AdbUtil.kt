@@ -29,6 +29,18 @@ object AdbUtil {
         "sleep $time".runCmd()
     }
 
+    fun uninstall(applicationId: String) {
+        adbCmd("uninstall $applicationId")
+    }
+
+    fun adbShellCmd(cmd: String) {
+        adbCmd("shell $cmd")
+    }
+
+    fun adbCmd(cmd: String) {
+        "${getAdb()} $cmd".runCmd()
+    }
+
     /**
      * 以 action 方式打开 Activity
      */

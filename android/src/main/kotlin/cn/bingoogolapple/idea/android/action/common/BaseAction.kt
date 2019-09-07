@@ -5,7 +5,11 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import javax.swing.Icon
 
+/**
+ * http://www.jetbrains.org/intellij/sdk/docs/basics/action_system.html
+ */
 abstract class BaseAction : AnAction {
+    lateinit var event: AnActionEvent
 
     constructor() {}
 
@@ -14,6 +18,7 @@ abstract class BaseAction : AnAction {
     constructor(text: String) : super(text) {}
 
     override fun actionPerformed(e: AnActionEvent) {
+        event = e
         AdbUtil.updateAdbPath(e.project!!)
 
         onMainThread()

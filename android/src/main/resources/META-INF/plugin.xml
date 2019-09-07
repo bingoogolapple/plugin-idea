@@ -82,6 +82,8 @@
 
             <action id="cn.bingoogolapple.idea.android.action.common.ConnectYeShen"
                     class="cn.bingoogolapple.idea.android.action.common.ConnectYeShen"/>
+            <action id="cn.bingoogolapple.idea.android.action.common.ConnectMuMu"
+                    class="cn.bingoogolapple.idea.android.action.common.ConnectMuMu"/>
             <separator/>
             <action id="cn.bingoogolapple.idea.android.action.common.SettingsHome"
                     class="cn.bingoogolapple.idea.android.action.common.SettingsHome"/>
