@@ -15,7 +15,7 @@ class AndroidConfigurable : Configurable {
     }
 
     override fun createComponent(): JComponent? {
-        return configForm.`$$$getRootComponent$$$`()
+        return configForm.contentView
     }
 
     override fun isModified(): Boolean {

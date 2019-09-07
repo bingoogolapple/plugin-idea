@@ -69,6 +69,9 @@
         <applicationConfigurable instance="cn.bingoogolapple.idea.android.persistent.AndroidConfigurable"/>
         <applicationService serviceInterface="cn.bingoogolapple.idea.android.persistent.AndroidPersistentStateComponent"
                             serviceImplementation="cn.bingoogolapple.idea.android.persistent.AndroidPersistentStateComponent"/>
+
+        <toolWindow id="Sample Calendar" secondary="true" icon="/toolwindow/plus.png" anchor="right"
+                    factoryClass="cn.bingoogolapple.idea.android.toolwindow.AndroidToolWindowFactory"/>
     </extensions>
 
     <!-- 一个 Action 表示 IDEA 菜单里的一个条目或工具栏上的一个按钮 -->
