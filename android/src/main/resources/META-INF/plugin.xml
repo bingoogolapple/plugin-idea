@@ -1,6 +1,6 @@
 <idea-plugin>
     <!-- 插件名称，别人在官方插件库搜索你的插件时使用的名称 -->
-    <name>BGAAndroid</name>
+    <name>BGA-IDEA-Android</name>
     <!--
     插件唯一id，不能和其他插件项目重复，所以推荐使用com.xxx.xxx的格式
     插件不同版本之间不能更改，若没有指定，则与插件名称相同
@@ -23,15 +23,55 @@
         description
         description]]></change-notes>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <!-- 插件兼容IDEA的最小 build 号 http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="173.0"/>
 
     <!-- 插件所依赖的其他插件的 id http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>org.jetbrains.android</depends>
 
+    <!--
+    IntelliJ IDEA 的组件模型是基于 PicoContainer https://www.cnblogs.com/yaoxiaohui/archive/2009/03/08/1406228.html
+    Application 级别的 components 在 IDEA 启动时加载，Project 和 Module 级别的 components 在项目启动时共同加载
+    -->
+    <!-- 在 IDEA 启动时初始化，在 IntelliJ IDEA 程序中只有一个实例存在 -->
+    <application-components>
+        <component>
+            <interface-class>cn.bingoogolapple.idea.android.component.AndroidApplicationComponent</interface-class>
+            <implementation-class>cn.bingoogolapple.idea.android.component.AndroidApplicationComponent</implementation-class>
+        </component>
+    </application-components>
+
+    <!-- IDEA 会为每一个 Project 实例创建 Project 级别的 Component -->
+    <project-components>
+        <component>
+            <interface-class>cn.bingoogolapple.idea.android.component.AndroidProjectComponent</interface-class>
+            <implementation-class>cn.bingoogolapple.idea.android.component.AndroidProjectComponent</implementation-class>
+        </component>
+    </project-components>
+
+    <!-- IDEA 会为已加载的 Project 中的每个 Module 创建 Module 级别的 Component -->
+    <module-components>
+        <component>
+            <interface-class>cn.bingoogolapple.idea.android.component.AndroidModuleComponent</interface-class>
+            <implementation-class>cn.bingoogolapple.idea.android.component.AndroidModuleComponent</implementation-class>
+        </component>
+    </module-components>
+
+    <!-- 插件定义的扩展点，以供其他插件扩展该插件 -->
+    <extensionPoints>
+    </extensionPoints>
+
+    <!-- 声明该插件对 IDEA core 或其他插件的扩展 -->
     <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceInterface="cn.bingoogolapple.idea.android.service.AndroidProjectService"
+                        serviceImplementation="cn.bingoogolapple.idea.android.service.AndroidProjectServiceImpl"/>
+
+        <applicationConfigurable instance="cn.bingoogolapple.idea.android.persistent.AndroidConfigurable"/>
+        <applicationService serviceInterface="cn.bingoogolapple.idea.android.persistent.AndroidPersistentStateComponent"
+                            serviceImplementation="cn.bingoogolapple.idea.android.persistent.AndroidPersistentStateComponent"/>
     </extensions>
 
+    <!-- 一个 Action 表示 IDEA 菜单里的一个条目或工具栏上的一个按钮 -->
     <actions>
         <group id="cn.bingoogolapple.idea.android" text="BGAAndroid">
             <add-to-group group-id="MainMenu" anchor="last"/>

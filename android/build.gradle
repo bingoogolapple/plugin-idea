@@ -26,7 +26,7 @@ dependencies {
 // https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
     version '2019.1.1'
-    pluginName 'BGA-IDEA'
+    pluginName 'BGA-IDEA-Android'
     plugins 'android'
     updateSinceUntilBuild false
     sandboxDirectory = "$project.buildDir/sandbox"
