@@ -1,5 +1,7 @@
 package cn.bingoogolapple.idea.android.util
 
+import cn.bingoogolapple.idea.android.parser.CoordinateParser
+import cn.bingoogolapple.idea.android.parser.MatchType
 import com.intellij.openapi.project.Project
 import org.jetbrains.android.sdk.AndroidSdkUtils
 
@@ -33,12 +35,12 @@ object AdbUtil {
         adbCmd("uninstall $applicationId")
     }
 
-    fun adbShellCmd(cmd: String) {
-        adbCmd("shell $cmd")
+    fun adbShellCmd(cmd: String): CmdResult {
+        return adbCmd("shell $cmd")
     }
 
-    fun adbCmd(cmd: String) {
-        "${getAdb()} $cmd".runCmd()
+    fun adbCmd(cmd: String): CmdResult {
+        return "${getAdb()} $cmd".runCmd()
     }
 
     /**
@@ -56,11 +58,56 @@ object AdbUtil {
     }
 
     /**
-     * 点击
+     * 点击指定坐标
      */
     fun inputTap(param: String) {
         sleep(1)
         "${getAdb()} shell input tap $param".runCmd()
+    }
+
+    /**
+     * 根据条件点击控件
+     */
+    fun click(matchType: MatchType, attrValue: String) {
+        getCoordinate(matchType, attrValue)?.run { inputTap(this) }
+    }
+
+    /**
+     * 根据条件点击控件
+     */
+    fun click(attrValue: String) {
+        click(MatchType.TEXT, attrValue)
+    }
+
+    /**
+     * 长按指定坐标
+     */
+    fun inputLongTap(param: String) {
+        val coordinate = param.split(" ").map { it.toInt() + 1 }.joinToString(" ")
+        inputSwipe("$param $coordinate 1000")
+    }
+
+    /**
+     * 根据条件长按控件
+     */
+    fun longClick(matchType: MatchType, attrValue: String) {
+        getCoordinate(matchType, attrValue)?.run { inputLongTap(this) }
+    }
+
+    /**
+     * 根据条件长按控件
+     */
+    fun longClick(attrValue: String) {
+        longClick(MatchType.TEXT, attrValue)
+    }
+
+    private fun getCoordinate(matchType: MatchType, attrValue: String): String? {
+        val dumpPath = "/data/local/tmp/uidump.xml"
+        adbShellCmd("uiautomator dump $dumpPath")
+        val xmlContent = adbShellCmd("cat $dumpPath").successMsg
+        return xmlContent?.run {
+            CoordinateParser.parse(this, matchType, attrValue)
+        }
     }
 
     /**
@@ -74,7 +121,6 @@ object AdbUtil {
      * 按键输入
      */
     fun inputSwipe(param: String) {
-        sleep(1)
         "${getAdb()} shell input swipe $param".runCmd()
     }
 
@@ -145,3 +191,4 @@ object AdbUtil {
         inputText(param)
     }
 }
+

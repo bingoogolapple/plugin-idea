@@ -43,8 +43,4 @@ class AndroidPersistentStateComponent : PersistentStateComponent<AndroidState> {
         mAndroidState = AndroidState()
         Logger.debug("AndroidPersistentStateComponent noStateLoaded")
     }
-
-    fun test() {
-
-    }
 }
