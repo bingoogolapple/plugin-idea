@@ -23,7 +23,11 @@
         description
         description]]></change-notes>
 
-    <!-- 插件兼容IDEA的最小 build 号 http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <!--
+    对 IntelliJ IDEA 软件支持本插件版本号，分为 since-build 最低版本 和 until-build 最高版本，两个属性可以任选一或者同时使用
+    since-build <= 支持版本 < until-build
+    http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html
+    -->
     <idea-version since-build="173.0"/>
 
     <!-- 插件所依赖的其他插件的 id http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
@@ -96,6 +100,13 @@
                     class="cn.bingoogolapple.idea.android.action.common.SettingsApp"/>
             <action id="cn.bingoogolapple.idea.android.action.common.SettingsDeveloper"
                     class="cn.bingoogolapple.idea.android.action.common.SettingsDeveloper"/>
+        </group>
+
+        <group id="cn.bingoogolapple.idea.android.study" text="Study" popup="true">
+            <add-to-group group-id="cn.bingoogolapple.idea.android" anchor="last"/>
+
+            <action id="cn.bingoogolapple.idea.android.action.study.TestDialog"
+                    class="cn.bingoogolapple.idea.android.action.study.TestDialog"/>
         </group>
 
         <action id="cn.bingoogolapple.idea.android.BGAAndroidAction"

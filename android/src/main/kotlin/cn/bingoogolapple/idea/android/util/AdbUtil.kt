@@ -1,5 +1,6 @@
 package cn.bingoogolapple.idea.android.util
 
+import android.view.KeyEvent
 import cn.bingoogolapple.idea.android.parser.CoordinateParser
 import cn.bingoogolapple.idea.android.parser.MatchType
 import com.intellij.openapi.project.Project
@@ -31,14 +32,23 @@ object AdbUtil {
         "sleep $time".runCmd()
     }
 
+    /**
+     * 卸载应用
+     */
     fun uninstall(applicationId: String) {
         adbCmd("uninstall $applicationId")
     }
 
+    /**
+     * adb shell 命令
+     */
     fun adbShellCmd(cmd: String): CmdResult {
         return adbCmd("shell $cmd")
     }
 
+    /**
+     * adb 命令
+     */
     fun adbCmd(cmd: String): CmdResult {
         return "${getAdb()} $cmd".runCmd()
     }
@@ -47,36 +57,41 @@ object AdbUtil {
      * 以 action 方式打开 Activity
      */
     fun startActivityWithAction(action: String) {
-        "${getAdb()} shell am start --activity-clear-top -a $action".runCmd()
+        adbShellCmd("am start --activity-clear-top -a $action")
     }
 
     /**
      * 以 component 方式打开 Activity
      */
     fun startActivityWithComponent(component: String) {
-        "${getAdb()} shell am start --activity-clear-top -n $component".runCmd()
+        adbShellCmd("am start --activity-clear-top -n $component")
     }
 
     /**
      * 点击指定坐标
      */
-    fun inputTap(param: String) {
-        sleep(1)
-        "${getAdb()} shell input tap $param".runCmd()
+    fun inputTap(param: String, needWait: Boolean = true) {
+        if (needWait) {
+            sleep(1)
+        }
+        adbShellCmd("input tap $param")
     }
 
     /**
      * 根据条件点击控件
      */
-    fun click(matchType: MatchType, attrValue: String) {
-        getCoordinate(matchType, attrValue)?.run { inputTap(this) }
+    fun click(matchType: MatchType, attrValue: String, needWait: Boolean = true) {
+        if (needWait) {
+            sleep(1)
+        }
+        getCoordinate(matchType, attrValue)?.run { inputTap(this, false) }
     }
 
     /**
      * 根据条件点击控件
      */
-    fun click(attrValue: String) {
-        click(MatchType.TEXT, attrValue)
+    fun click(attrValue: String, needWait: Boolean = true) {
+        click(MatchType.TEXT, attrValue, needWait)
     }
 
     /**
@@ -113,15 +128,15 @@ object AdbUtil {
     /**
      * 按键输入
      */
-    fun inputKeyEvent(param: String) {
-        "${getAdb()} shell input keyevent $param".runCmd()
+    fun inputKeyEvent(param: Any) {
+        adbShellCmd("input keyevent $param")
     }
 
     /**
      * 按键输入
      */
     fun inputSwipe(param: String) {
-        "${getAdb()} shell input swipe $param".runCmd()
+        adbShellCmd("input swipe $param")
     }
 
     /**
@@ -149,14 +164,21 @@ object AdbUtil {
      * 下一个输入框获取焦点
      */
     fun nextEt() {
-        inputKeyEvent("KEYCODE_DPAD_DOWN")
+        inputKeyEvent(KeyEvent.KEYCODE_DPAD_DOWN)
+    }
+
+    /**
+     * 点击返回键
+     */
+    fun clickBack() {
+        inputKeyEvent(KeyEvent.KEYCODE_BACK)
     }
 
     /**
      * 移动到末尾、清空
      */
     fun clearEt() {
-        inputKeyEvent("KEYCODE_MOVE_END")
+        inputKeyEvent(KeyEvent.KEYCODE_MOVE_END)
         inputKeyEvent("--longpress $(printf 'KEYCODE_DEL %.0s' {1..50})")
     }
 
@@ -172,7 +194,7 @@ object AdbUtil {
      */
     fun inputText(param: String) {
         clearEt()
-        "${getAdb()} shell input text $param".runCmd()
+        adbShellCmd("input text $param")
     }
 
     /**
@@ -191,4 +213,3 @@ object AdbUtil {
         inputText(param)
     }
 }
-
