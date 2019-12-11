@@ -32,6 +32,9 @@
 
     <!-- 插件所依赖的其他插件的 id http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>org.jetbrains.android</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+    <depends>org.jetbrains.plugins.gradle</depends>
+    <depends>org.intellij.groovy</depends>
 
     <!--
     IntelliJ IDEA 的组件模型是基于 PicoContainer https://www.cnblogs.com/yaoxiaohui/archive/2009/03/08/1406228.html

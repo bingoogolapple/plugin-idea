@@ -27,7 +27,7 @@ dependencies {
 intellij {
     version '2019.1.1'
     pluginName 'BGA-IDEA-Android'
-    plugins 'android'
+    plugins = ['android', 'gradle', 'Groovy', 'terminal']
     updateSinceUntilBuild false
     sandboxDirectory = "$project.buildDir/sandbox"
 }

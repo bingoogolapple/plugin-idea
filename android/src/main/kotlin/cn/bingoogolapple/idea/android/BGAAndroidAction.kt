@@ -1,14 +1,15 @@
 package cn.bingoogolapple.idea.android
 
-import cn.bingoogolapple.idea.android.util.runCmd
-import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.ui.Messages
+import cn.bingoogolapple.idea.android.action.common.BaseAction
+import com.intellij.execution.configurations.GeneralCommandLine
 
-class BGAAndroidAction : AnAction() {
-
-    override fun actionPerformed(event: AnActionEvent) {
-        val project = event.project
-        Messages.showMessageDialog(project, "adb devices".runCmd().successMsg, "BGAAndroidAction", Messages.getInformationIcon())
+class BGAAndroidAction : BaseAction() {
+    override fun onChildThread() {
+        val commandLine = GeneralCommandLine()
+        commandLine.setWorkDirectory(event.project!!.basePath)
+        commandLine.exePath = "curl"
+        commandLine.addParameter("-v")
+        commandLine.addParameter("http://www.bingoogolapple.cn")
+        processCommandline("测试curl", "BGA Console", commandLine)
     }
 }
